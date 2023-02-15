@@ -18,7 +18,7 @@ using UnityEngine.InputSystem.Interactions;
 // create compatibility layers for Unity 2017 and 2018
 // better implement animation calls(?)
 // more camera animations
-namespace SUPERCharacter{
+
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(CapsuleCollider))][AddComponentMenu("SUPER Character/SUPER Character Controller")]
 public class SUPERCharacterAIO : MonoBehaviour{
     #region Variables
@@ -608,15 +608,16 @@ public class SUPERCharacterAIO : MonoBehaviour{
     }
  
     #region Camera Functions
-    void RotateView(Vector2 yawPitchInput, float inputSensitivity, float cameraWeight){
-        
-        switch (viewInputMethods){
-            
+    void RotateView(Vector2 yawPitchInput, float inputSensitivity, float cameraWeight)
+    {
+        switch (viewInputMethods)
+        {
             case ViewInputModes.Traditional:{  
                 yawPitchInput.x *= ((mouseInputInversion==MouseInputInversionModes.X||mouseInputInversion == MouseInputInversionModes.Both) ? 1 : -1);
                 yawPitchInput.y *= ((mouseInputInversion==MouseInputInversionModes.Y||mouseInputInversion == MouseInputInversionModes.Both) ? -1 : 1);
                 float maxDelta = Mathf.Min(5, (26-cameraWeight))*360;
-                switch(cameraPerspective){
+                switch(cameraPerspective)
+                {
                     case PerspectiveModes._1stPerson:{
                         Vector2 targetAngles = ((Vector2.right*playerCamera.transform.localEulerAngles.x)+(Vector2.up*p_Rigidbody.rotation.eulerAngles.y));
                         float fovMod = FOVSensitivityMultiplier>0 && playerCamera.fieldOfView <= initialCameraFOV ? ((initialCameraFOV - playerCamera.fieldOfView)*(FOVSensitivityMultiplier/10))+1 : 1;
@@ -1471,29 +1472,40 @@ public class SUPERCharacterAIO : MonoBehaviour{
     #endregion
 
     #region Interactables
-    public bool TryInteract(){
-        if(cameraPerspective == PerspectiveModes._3rdPerson){
+    public bool TryInteract()
+    {
+        if (cameraPerspective == PerspectiveModes._3rdPerson)
+        {
             Collider[] cols = Physics.OverlapBox(transform.position + (transform.forward*(interactRange/2)), Vector3.one*(interactRange/2),transform.rotation,interactableLayer,QueryTriggerInteraction.Ignore);
             IInteractable interactable = null;
             float lastColestDist = 100;
-            foreach(Collider c in cols){
+            foreach(Collider c in cols)
+            {
                 IInteractable i = c.GetComponent<IInteractable>();
-                if(i != null){
+                if(i != null)
+                {
                     float d = Vector3.Distance(transform.position, c.transform.position);
-                    if(d<lastColestDist){
+                    if(d<lastColestDist)
+                    {
                         lastColestDist = d;
                         interactable = i;
                     }
                 }
             }
             return ((interactable != null)? interactable.Interact() : false);
-            
-        }else{
-            RaycastHit h;
-            if(Physics.SphereCast(playerCamera.transform.position,0.25f,playerCamera.transform.forward,out h,interactRange,interactableLayer,QueryTriggerInteraction.Ignore)){
-                IInteractable i = h.collider.GetComponent<IInteractable>();
-                if(i!=null){
-                    return i.Interact();
+        }
+        else
+        {
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(playerCamera.transform.position, playerCamera.transform.forward, interactRange, interactableLayer);
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                IInteractable interactable = hits[i].collider.GetComponent<IInteractable>();
+
+                if (interactable != null)
+                {
+                    return interactable.Interact();
                 }
             }
         }
@@ -2206,4 +2218,4 @@ public class SuperFPEditor : Editor{
 }
 #endif
 #endregion
-}
+
