@@ -52,4 +52,10 @@ public interface IInteractableDeskObject
 {
     public void Interact();
     public void StopInteraction();
+
+    public void WhileInteractingAction();
+
+    public void StopInteractingAction();
+
+    public void MoveInteractableObject(Vector3 v);
 }

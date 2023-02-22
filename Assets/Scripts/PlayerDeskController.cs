@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerDeskController : MonoBehaviour
 {
-    private DeskInteractableObject currentInteractedObject;
+    private IInteractableDeskObject currentInteractedObject;
     public LayerMask deskInteractablesLayer;
     public LayerMask whileInteractingLayer;
     private bool isInteracting;
@@ -22,6 +22,7 @@ public class PlayerDeskController : MonoBehaviour
     {
         InteractWithMouse();
         MantainInteraction();
+        WhileInteractingAction();
     }
 
     private RaycastHit MouseRayCast(LayerMask layerMask)
@@ -42,8 +43,8 @@ public class PlayerDeskController : MonoBehaviour
             RaycastHit hit = MouseRayCast(deskInteractablesLayer);
             if (hit.collider)
             {
-                currentInteractedObject = hit.collider.GetComponent<DeskInteractableObject>();
-                currentInteractedObject.GetComponent<IInteractableDeskObject>()?.Interact();
+                currentInteractedObject = hit.collider.GetComponent<IInteractableDeskObject>();
+                currentInteractedObject.Interact();
                 isInteracting = true;
             }
         }
@@ -51,10 +52,23 @@ public class PlayerDeskController : MonoBehaviour
         {
             if(currentInteractedObject != null)
             {
-                currentInteractedObject.GetComponent<IInteractableDeskObject>()?.StopInteraction();
+                currentInteractedObject.StopInteraction();
             }
             currentInteractedObject = null;
             isInteracting = false;
+        }
+    }
+
+    private void WhileInteractingAction()
+    {
+        if (!isInteracting) return;
+        if (Input.GetMouseButtonDown(1))
+        {
+            currentInteractedObject.WhileInteractingAction();
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            currentInteractedObject.StopInteractingAction();
         }
     }
 

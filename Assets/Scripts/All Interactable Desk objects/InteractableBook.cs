@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableBook : DeskInteractableObject, IInteractableDeskObject
+public class InteractableBook : DeskInteractableObject
 {
     // Start is called before the first frame update
     void Start()
@@ -15,14 +15,4 @@ public class InteractableBook : DeskInteractableObject, IInteractableDeskObject
     {
 
     }
-
-    public void Interact()
-    {
-        Debug.Log("Interacting with book");
-    }
-    public void StopInteraction()
-    {
-        Debug.Log("Stopped interacting with book");
-    }
-
 }

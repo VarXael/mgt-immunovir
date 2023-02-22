@@ -327,13 +327,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 533971221, guid: 6ffbbf1ffc6d5ad41a9227807d96d3db, type: 3}
-      propertyPath: m_Size.z
-      value: 0.95117426
-      objectReference: {fileID: 0}
-    - target: {fileID: 533971221, guid: 6ffbbf1ffc6d5ad41a9227807d96d3db, type: 3}
-      propertyPath: m_Center.z
-      value: 0.8244128
+    - target: {fileID: 1268139245537575092, guid: 6ffbbf1ffc6d5ad41a9227807d96d3db, type: 3}
+      propertyPath: PickedUpPipetteHeight
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2287542059027028007, guid: 6ffbbf1ffc6d5ad41a9227807d96d3db, type: 3}
       propertyPath: m_RootOrder
@@ -382,10 +378,6 @@ PrefabInstance:
     - target: {fileID: 5066011981024590580, guid: 6ffbbf1ffc6d5ad41a9227807d96d3db, type: 3}
       propertyPath: m_Name
       value: Table cmplx
-      objectReference: {fileID: 0}
-    - target: {fileID: 7630461899749810688, guid: 6ffbbf1ffc6d5ad41a9227807d96d3db, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ffbbf1ffc6d5ad41a9227807d96d3db, type: 3}
