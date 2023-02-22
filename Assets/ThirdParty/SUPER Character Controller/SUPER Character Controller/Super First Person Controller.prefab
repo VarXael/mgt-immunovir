@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6817638360860843946}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: Camera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 6817638361354391143}
   - component: {fileID: 6817638361354391145}
   - component: {fileID: 6817638361354391142}
+  - component: {fileID: 2986079648569140282}
   m_Layer: 2
   m_Name: Super First Person Controller
   m_TagString: Player
@@ -172,10 +173,10 @@ MonoBehaviour:
   crosshairSprite: {fileID: 0}
   cameraPerspective: 0
   automaticallySwitchPerspective: 0
-  perspectiveSwitchingKey: 31
+  perspectiveSwitchingKey: 0
   mouseInputInversion: 0
   Sensitivity: 8
-  rotationWeight: 3
+  rotationWeight: 1
   verticalRotationRange: 170
   standingEyeHeight: 0.8
   crouchingEyeHeight: 0.25
@@ -218,7 +219,7 @@ MonoBehaviour:
   slopeInfluenceOnSpeed: 1
   maxStairRise: 0.25
   stepUpSpeed: 0.2
-  canJump: 1
+  canJump: 0
   holdJump: 0
   jumpEnhancements: 0
   Jumped: 0
@@ -252,7 +253,7 @@ MonoBehaviour:
     groundMaterial: {fileID: 0}
     groundLayer: {fileID: 0}
     groundPhysicMaterial: {fileID: 0}
-  enableStaminaSystem: 1
+  enableStaminaSystem: 0
   jumpingDepletesStamina: 1
   Stamina: 100
   currentStaminaLevel: 0
@@ -268,7 +269,7 @@ MonoBehaviour:
   headbobSpeed: 3
   headbobPower: 2
   ZTilt: 0.5
-  enableSurvivalStats: 1
+  enableSurvivalStats: 0
   defaultSurvivalStats:
     Health: 250
     Hunger: 100
@@ -287,10 +288,10 @@ MonoBehaviour:
     isStarving: 0
     isDehydrated: 0
   interactKey: 19
-  interactRange: 2.4
+  interactRange: 3
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   _1stPersonCharacterAnimator: {fileID: 0}
   _3rdPersonCharacterAnimator: {fileID: 0}
   a_velocity: 
@@ -402,3 +403,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2986079648569140282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6817638361354391147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff75b2817f527944a62db0e78ec1568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deskInteractablesLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  whileInteractingLayer:
+    serializedVersion: 2
+    m_Bits: 256
