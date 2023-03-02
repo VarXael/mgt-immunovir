@@ -6,7 +6,11 @@ using UnityEngine;
 public class InteractablePipette : DeskInteractableObject
 {
     public float PickedUpPipetteHeight;
-    public Vector3 PickedUpPipetteRotation;
+    public float PickedUpPipetteInteractionHeight;
+    public Quaternion PickedUpPipetteRotation;
+    public Quaternion PickedUpPipetteInteractionRotation;
+    public Material PipetteIndicatorColor;
+    public GameObject PipettePlunger;
     private Rigidbody rb;
     private bool changeMovement;
 
@@ -19,7 +23,7 @@ public class InteractablePipette : DeskInteractableObject
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public override void Interact()
@@ -28,7 +32,7 @@ public class InteractablePipette : DeskInteractableObject
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         rb.useGravity = false;
         transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        transform.eulerAngles = PickedUpPipetteRotation;
+        transform.rotation = PickedUpPipetteRotation;
     }
 
     public override void StopInteraction()
@@ -60,11 +64,13 @@ public class InteractablePipette : DeskInteractableObject
         if (!changeMovement)
         {
             rb.MovePosition(new Vector3(pos.x, PickedUpPipetteHeight, pos.z));
+            rb.MoveRotation(PickedUpPipetteRotation);
         }
         else
         {
-            rb.MovePosition(new Vector3(transform.position.x, transform.position.x + pos.x, transform.position.z));
-            Debug.LogError("Creare special input for move object. Specifically make it so that you can use your mouse to move the pipette on the Y axis");
+            transform.position = new Vector3(transform.position.x, PickedUpPipetteInteractionHeight, transform.position.z);
+            rb.MoveRotation(PickedUpPipetteInteractionRotation);
+
         }
     }
 
