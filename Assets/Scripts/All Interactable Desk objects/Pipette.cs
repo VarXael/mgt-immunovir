@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class InteractablePipette : DeskInteractableObject
+public class Pipette : DeskInteractableObject
 {
+    
     public float PickedUpPipetteHeight;
     public float PickedUpPipetteInteractionHeight;
+    public GameObject PipetteTipPositionObject;
+    [HideInInspector]
+    public GameObject currentlyHeldPipetteTip;
     public Quaternion PickedUpPipetteRotation;
     public Quaternion PickedUpPipetteInteractionRotation;
+    public LayerMask pipetteInteractable;
     public Material PipetteIndicatorColor;
-    public GameObject PipettePlunger;
+    public LineRenderer LineVisualizer;
     private Rigidbody rb;
     private bool changeMovement;
 
@@ -18,6 +23,7 @@ public class InteractablePipette : DeskInteractableObject
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        LineVisualizer.enabled = false;
     }
 
     // Update is called once per frame
@@ -33,6 +39,7 @@ public class InteractablePipette : DeskInteractableObject
         rb.useGravity = false;
         transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         transform.rotation = PickedUpPipetteRotation;
+        LineVisualizer.enabled = true;
     }
 
     public override void StopInteraction()
@@ -40,6 +47,7 @@ public class InteractablePipette : DeskInteractableObject
         base.StopInteraction();
         rb.constraints = RigidbodyConstraints.None;
         rb.useGravity = true;
+        LineVisualizer.enabled = false;
     }
 
     public override void WhileInteractingAction()
@@ -48,6 +56,16 @@ public class InteractablePipette : DeskInteractableObject
         rb.constraints = RigidbodyConstraints.FreezePositionX;
         rb.constraints = RigidbodyConstraints.FreezePositionZ;
         changeMovement = true;
+        WhileInteractingPipette();
+    }
+    private void WhileInteractingPipette()
+    {
+        RaycastHit hit = RayCast(Vector3.down, pipetteInteractable);
+        if (hit.collider)
+        {
+            PipetteInteractable p = hit.collider.gameObject.GetComponent<PipetteInteractable>();
+            p.InteractWithPipette(this);
+        }
     }
 
     public override void StopInteractingAction()

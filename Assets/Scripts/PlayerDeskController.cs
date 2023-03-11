@@ -4,27 +4,45 @@ using UnityEngine;
 
 public class PlayerDeskController : MonoBehaviour
 {
-    private IInteractableDeskObject currentInteractedObject;
     public LayerMask deskInteractablesLayer;
     public LayerMask whileInteractingLayer;
+    public float camMoveSpeed;
+    private Vector3 smoothDumpVelocity;
+    public float x;
+    public float y;
+    private IInteractableDeskObject currentInteractedObject;
     private bool isInteracting;
     private RaycastHit hit;
     private Vector3 lastHitPosition;
+    private Vector3 camStartPos;
+    private Camera cam;
+    private Rigidbody camRB;
 
     // Start is called before the first frame update
     void Start()
     {
         enabled = false;
+        cam = GameObject.FindGameObjectWithTag("Camera").GetComponent<Camera>();
+        camRB = cam.GetComponent<Rigidbody>();
+        camStartPos = cam.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        x = Input.GetAxis("Horizontal");
+        y = Input.GetAxis("Vertical");
         InteractWithMouse();
         MantainInteraction();
         WhileInteractingAction();
+        MoveCamera();
     }
 
+    private void MoveCamera()
+    {
+        Vector3.SmoothDamp(cam.transform.position, camStartPos, ref smoothDumpVelocity, camMoveSpeed);
+        Debug.LogError("Fai muovere la camera idiota");
+    }
     private RaycastHit MouseRayCast(LayerMask layerMask)
     {
         Vector3 mousePos = Input.mousePosition;

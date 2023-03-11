@@ -40,4 +40,17 @@ public class DeskInteractableObject : MonoBehaviour, IInteractableDeskObject
     {
         Debug.Log("Stopped Special Interaction with " + name);
     }
+
+    protected RaycastHit RayCast(Vector3 dir,LayerMask layerMask)
+    {
+        RaycastHit hit;
+        Physics.Raycast(transform.position, dir, out hit, Mathf.Infinity, layerMask);
+        return hit;
+    }
+    protected RaycastHit RayCast(Vector3 dir)
+    {
+        RaycastHit hit;
+        Physics.Raycast(transform.position, dir, out hit, Mathf.Infinity);
+        return hit;
+    }
 }

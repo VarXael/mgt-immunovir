@@ -15,7 +15,7 @@ TagManager:
   - DeskOuterBoxCollider
   - DeskInteractableObject
   - DeskTable
-  - 
+  - PipetteInteractable
   - 
   - 
   - 
