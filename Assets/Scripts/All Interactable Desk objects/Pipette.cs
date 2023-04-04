@@ -7,17 +7,49 @@ public class Pipette : DeskInteractableObject
 {
     
     public float PickedUpPipetteHeight;
-    public float PickedUpPipetteInteractionHeight;
+    public float DefaultPickedUpPipetteInteractionHeight;
     public GameObject PipetteTipPositionObject;
+    public GameObject PipetteRaycastPositionObject;
     [HideInInspector]
     public GameObject currentlyHeldPipetteTip;
+    public bool HasPipetteTip
+    {
+        get
+        {
+            if (currentlyHeldPipetteTip)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
     public Quaternion PickedUpPipetteRotation;
     public Quaternion PickedUpPipetteInteractionRotation;
     public LayerMask pipetteInteractable;
-    public Material PipetteIndicatorColor;
+    public LayerMask pipetteHeightLayerMask;
+    public float maxPipetteLiquid;
+    public float currentPipetteLiquid;
+    public float pipetteLiquidPerTick;
+    public bool IsPipetteFull
+    {
+        get
+        {
+            if (maxPipetteLiquid == currentPipetteLiquid)
+            {
+                return true;
+            }
+            else return false;
+        }
+    }
+    //public Material PipetteIndicatorColor;
     public LineRenderer LineVisualizer;
     private Rigidbody rb;
     private bool changeMovement;
+    private TubeSolutionType[] solutionTypeContained;
+    private float[] solutionLiquidContained;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +62,15 @@ public class Pipette : DeskInteractableObject
     void Update()
     {
         
+    }
+
+    public void ObtainSolution(TubeSolutionType solutionType, float quantityPerTick)
+    {
+
+    }
+    public void ReleaseSolution(TubeSolutionType solutionType, float quantityPerTick)
+    {
+
     }
 
     public override void Interact()
@@ -61,9 +102,11 @@ public class Pipette : DeskInteractableObject
     private void WhileInteractingPipette()
     {
         RaycastHit hit = RayCast(Vector3.down, pipetteInteractable);
+        PipetteInteractable p;
+        if (!hit.collider.gameObject.TryGetComponent(out p)) return;
         if (hit.collider)
         {
-            PipetteInteractable p = hit.collider.gameObject.GetComponent<PipetteInteractable>();
+            p = hit.collider.gameObject.GetComponent<PipetteInteractable>();
             p.InteractWithPipette(this);
         }
     }
@@ -81,15 +124,32 @@ public class Pipette : DeskInteractableObject
         base.MoveInteractableObject(pos);
         if (!changeMovement)
         {
+            //Debug.Log(CalculatePipetteHeigth());
             rb.MovePosition(new Vector3(pos.x, PickedUpPipetteHeight, pos.z));
             rb.MoveRotation(PickedUpPipetteRotation);
         }
         else
         {
-            transform.position = new Vector3(transform.position.x, PickedUpPipetteInteractionHeight, transform.position.z);
+            transform.position = new Vector3(transform.position.x, DefaultPickedUpPipetteInteractionHeight, transform.position.z);
             rb.MoveRotation(PickedUpPipetteInteractionRotation);
 
         }
+    }
+
+    private float CalculatePipetteHeigth()
+    {
+        RaycastHit[] hit = Physics.RaycastAll(transform.position, Vector3.down, 10f, pipetteHeightLayerMask);
+
+        for(int i = 0; i < hit.Length; i++)
+        {
+            if (hit[i].collider.CompareTag("Pipette")) continue;
+            else
+            {
+                Debug.Log(hit[i].collider.name);
+                return hit[i].point.y;
+            }
+        }
+        return DefaultPickedUpPipetteInteractionHeight;
     }
 
 }

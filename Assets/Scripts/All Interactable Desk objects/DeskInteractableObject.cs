@@ -23,22 +23,22 @@ public class DeskInteractableObject : MonoBehaviour, IInteractableDeskObject
 
     public virtual void Interact()
     {
-        Debug.Log("Started interacting with" + name);
+        //Debug.Log("Started interacting with" + name);
     }
 
     public virtual void StopInteraction()
     {
         StopInteractingAction();
-        Debug.Log("Stopped interaction with " + name);
+        //Debug.Log("Stopped interaction with " + name);
     }
 
     public virtual void WhileInteractingAction()
     {
-        Debug.Log("Started Special Interaction with " + name);
+        //Debug.Log("Started Special Interaction with " + name);
     }
     public virtual void StopInteractingAction()
     {
-        Debug.Log("Stopped Special Interaction with " + name);
+        //Debug.Log("Stopped Special Interaction with " + name);
     }
 
     protected RaycastHit RayCast(Vector3 dir,LayerMask layerMask)
@@ -51,6 +51,12 @@ public class DeskInteractableObject : MonoBehaviour, IInteractableDeskObject
     {
         RaycastHit hit;
         Physics.Raycast(transform.position, dir, out hit, Mathf.Infinity);
+        return hit;
+    }
+    protected RaycastHit RayCast(Vector3 startPos, Vector3 dir, LayerMask layerMask)
+    {
+        RaycastHit hit;
+        Physics.Raycast(startPos, dir, out hit, Mathf.Infinity);
         return hit;
     }
 }

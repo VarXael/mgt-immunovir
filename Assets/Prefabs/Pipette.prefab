@@ -102,15 +102,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PickedUpPipetteHeight: 1.3
-  PickedUpPipetteInteractionHeight: 1.24
+  DefaultPickedUpPipetteInteractionHeight: 1.25
   PipetteTipPositionObject: {fileID: 4444008487022994631}
+  PipetteRaycastPositionObject: {fileID: 0}
   currentlyHeldPipetteTip: {fileID: 0}
   PickedUpPipetteRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
   PickedUpPipetteInteractionRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
   pipetteInteractable:
     serializedVersion: 2
     m_Bits: 512
-  PipetteIndicatorColor: {fileID: 0}
+  pipetteHeightLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  maxPipetteLiquid: 500
+  currentPipetteLiquid: 0
+  pipetteLiquidPerTick: 25
   LineVisualizer: {fileID: 7212848444522095239}
 --- !u!64 &4948334037402427742
 MeshCollider:
