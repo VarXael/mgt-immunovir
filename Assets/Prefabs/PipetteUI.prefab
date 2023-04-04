@@ -492,6 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 916c049003d9fbd4887170b71970585e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myName: PipetteUI
   SolutionContainer: {fileID: 2837284666081924700}
   SolutionTypeText: {fileID: 719132615142137601}
   SolutionTypeQuantity: {fileID: 1798227424188139937}

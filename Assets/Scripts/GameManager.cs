@@ -8,21 +8,24 @@ public class GameManager : Singleton<GameManager>
     public SUPERCharacterAIO playerRef;
     [HideInInspector]
     public Camera cameraRef;
-    [HideInInspector]
-    public PipetteUI pipetteUI;
     [SerializeField]
-    private GameObject pipetteUI_GO;
+    private UIManager UIManager;
     
     private void Start()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player").GetComponent<SUPERCharacterAIO>();
         cameraRef = playerRef.gameObject.GetComponentInChildren<Camera>();
-        pipetteUI = SpawnPipetteUI().GetComponent<PipetteUI>();
+        UIManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
     }
 
-    private GameObject SpawnPipetteUI()
+    public void ChangeUIActiveState(GameObject whoIsActivatingMe,string UIToChange, bool isActive)
     {
-        return Instantiate(pipetteUI_GO);
+        UI ui = UIManager.GetUIFromName(UIToChange);
+        if (ui)
+        {
+            ui.gameObject.SetActive(isActive);
+            ui.activatorReference = whoIsActivatingMe;
+        }
     }
 
 }

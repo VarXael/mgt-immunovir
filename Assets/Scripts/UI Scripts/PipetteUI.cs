@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class PipetteUI : MonoBehaviour
+public class PipetteUI : UI
 {
     public Slider SolutionContainer;
     public TextMeshProUGUI SolutionTypeText;

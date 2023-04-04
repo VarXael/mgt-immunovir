@@ -9,11 +9,25 @@ public enum TubeSolutionType
     Soluzione_3
 }
 
+public enum TubeSolutionNumber
+{
+    A,
+    A1,
+    A2,
+    A3,
+    A4,
+    B1,
+    B2,
+    B3,
+    B4
+}
+
 public class TestTube : DeskInteractableObject, PipetteInteractable
 {
     public GameObject testTubeLid;
     public float solutionQuantity_ul;
     public TubeSolutionType solutionType;
+    public TubeSolutionNumber solutionNumber;
     private bool isLidOpen;
     private bool test;
 
@@ -50,8 +64,13 @@ public class TestTube : DeskInteractableObject, PipetteInteractable
     {
         base.Interact();
         OpenTubeLid();
+        GameManager.Instance.ChangeUIActiveState(gameObject,"TestTubeUI", true);
     }
-
+    public override void StopInteraction()
+    {
+        base.StopInteraction();
+        GameManager.Instance.ChangeUIActiveState(gameObject,"TestTubeUI", false);
+    }
     private void OpenTubeLid()
     {
         testTubeLid.transform.Rotate(new Vector3(0, GetLidRotationBasedOnOpenState(), 0), Space.Self);
@@ -65,10 +84,16 @@ public class TestTube : DeskInteractableObject, PipetteInteractable
 
     private void AddSolutionInPipette(Pipette pipetteRef)
     {
-        GameManager.Instance.pipetteUI.AddSolutionToPipetteContainer(solutionQuantity_ul, solutionType);
+        //GameManager.Instance.pipetteUI.AddSolutionToPipetteContainer(solutionQuantity_ul, solutionType);
     }
     private void RemoveSolutionFromPipette(Pipette pipetteRef)
     {
-        GameManager.Instance.pipetteUI.RemoveSolutionToPipetteContainer(solutionQuantity_ul);
+        //GameManager.Instance.pipetteUI.RemoveSolutionToPipetteContainer(solutionQuantity_ul);
+    }
+
+    public override void StopInteractingAction()
+    {
+        base.StopInteractingAction();
+
     }
 }

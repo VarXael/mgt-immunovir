@@ -48,8 +48,8 @@ public class Pipette : DeskInteractableObject
     public LineRenderer LineVisualizer;
     private Rigidbody rb;
     private bool changeMovement;
-    private TubeSolutionType[] solutionTypeContained;
-    private float[] solutionLiquidContained;
+    private List<TubeSolutionType> solutionTypeContained;
+    private List<float> solutionLiquidContained;
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +81,7 @@ public class Pipette : DeskInteractableObject
         transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         transform.rotation = PickedUpPipetteRotation;
         LineVisualizer.enabled = true;
+        GameManager.Instance.ChangeUIActiveState(gameObject,"PipetteUI", true);
     }
 
     public override void StopInteraction()
@@ -89,6 +90,7 @@ public class Pipette : DeskInteractableObject
         rb.constraints = RigidbodyConstraints.None;
         rb.useGravity = true;
         LineVisualizer.enabled = false;
+        GameManager.Instance.ChangeUIActiveState(gameObject,"PipetteUI", false);
     }
 
     public override void WhileInteractingAction()
