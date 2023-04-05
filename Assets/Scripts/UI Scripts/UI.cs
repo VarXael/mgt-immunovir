@@ -16,9 +16,12 @@ public class UI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void OnChangeActivationState()
     {
-        
+
+    }
+    public virtual void UpdateUI(GameObject updaterObject)
+    {
+
     }
 }

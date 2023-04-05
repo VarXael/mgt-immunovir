@@ -10,6 +10,17 @@ public class PipetteUI : UI
     public TextMeshProUGUI SolutionTypeText;
     public TextMeshProUGUI SolutionTypeQuantity;
 
+    public override void UpdateUI(GameObject updaterObject)
+    {
+        base.UpdateUI(updaterObject);
+        UpdateLiquidQuantity(updaterObject.GetComponent<Pipette>().currentPipetteLiquid);
+    }
+
+    public void UpdateLiquidQuantity(float currentLiquidinPipette)
+    {
+        SolutionTypeQuantity.text = currentLiquidinPipette.ToString();
+    }
+
 
     public void AddSolutionToPipetteContainer(float valueToSum, TubeSolutionType solutionType)
     {

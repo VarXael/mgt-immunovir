@@ -48,7 +48,9 @@ public class Pipette : DeskInteractableObject
     public LineRenderer LineVisualizer;
     private Rigidbody rb;
     private bool changeMovement;
+    [SerializeField]
     private List<TubeSolutionType> solutionTypeContained;
+    [SerializeField]
     private List<float> solutionLiquidContained;
 
     // Start is called before the first frame update
@@ -81,7 +83,7 @@ public class Pipette : DeskInteractableObject
         transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         transform.rotation = PickedUpPipetteRotation;
         LineVisualizer.enabled = true;
-        GameManager.Instance.ChangeUIActiveState(gameObject,"PipetteUI", true);
+        UIManager.Instance.ChangeUIActiveState(gameObject,"PipetteUI", true);
     }
 
     public override void StopInteraction()
@@ -90,7 +92,7 @@ public class Pipette : DeskInteractableObject
         rb.constraints = RigidbodyConstraints.None;
         rb.useGravity = true;
         LineVisualizer.enabled = false;
-        GameManager.Instance.ChangeUIActiveState(gameObject,"PipetteUI", false);
+        UIManager.Instance.ChangeUIActiveState(gameObject,"PipetteUI", false);
     }
 
     public override void WhileInteractingAction()
@@ -105,6 +107,7 @@ public class Pipette : DeskInteractableObject
     {
         RaycastHit hit = RayCast(Vector3.down, pipetteInteractable);
         PipetteInteractable p;
+        if (!hit.collider) return;
         if (!hit.collider.gameObject.TryGetComponent(out p)) return;
         if (hit.collider)
         {
@@ -153,5 +156,55 @@ public class Pipette : DeskInteractableObject
         }
         return DefaultPickedUpPipetteInteractionHeight;
     }
+    public void AddSolutionInPipette(TubeSolutionType type, float quantity)
+    {
+        bool doesTypeAlreadyExist = false;
+        int indexToMeasure = 0;
+        for(int i = 0; i < solutionTypeContained.Count; i++)
+        {
+            if (solutionTypeContained[i] == type)
+            {
+                indexToMeasure = i;
+                doesTypeAlreadyExist = true;
+                break;
+            }
+        }
+        if (doesTypeAlreadyExist)
+        {
+            if(GetCurrentPipetteLiquid() + quantity > maxPipetteLiquid)
+            {
+                quantity = maxPipetteLiquid - GetCurrentPipetteLiquid();
+            }
+            solutionLiquidContained[indexToMeasure] = solutionLiquidContained[indexToMeasure] + quantity;
+        }
+        else
+        {
+            solutionTypeContained.Add(type);
+
+            if (GetCurrentPipetteLiquid() + quantity > maxPipetteLiquid)
+            {
+                quantity = maxPipetteLiquid - GetCurrentPipetteLiquid();
+            }
+
+            solutionLiquidContained.Add(quantity);
+        }
+        UIManager.Instance.GetUIFromName("PipetteUI").UpdateUI(gameObject);
+    }
+
+    private float GetCurrentPipetteLiquid()
+    {
+        float totalSum = 0;
+        for(int i = 0; i<solutionLiquidContained.Count; i++)
+        {
+            totalSum = totalSum + solutionLiquidContained[i];
+        }
+        currentPipetteLiquid = totalSum;
+        return totalSum;
+    }
+    private void RemoveSolutionFromPipette(Pipette pipetteRef)
+    {
+        //GameManager.Instance.pipetteUI.RemoveSolutionToPipetteContainer(solutionQuantity_ul);
+    }
+
 
 }

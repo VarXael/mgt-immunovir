@@ -49,27 +49,29 @@ public class TestTube : DeskInteractableObject, PipetteInteractable
         if (!isLidOpen) return;
         if (!pipetteRef.HasPipetteTip) return;
         if (pipetteRef.IsPipetteFull) return;
-        if (test)
-        {
-            RemoveSolutionFromPipette(pipetteRef);
-        }
-        else
-        {
-            AddSolutionInPipette(pipetteRef);
-        }
-        test = !test;
+
+        pipetteRef.AddSolutionInPipette(solutionType, pipetteRef.pipetteLiquidPerTick);
+        //if (test)
+        //{
+        //    RemoveSolutionFromPipette(pipetteRef);
+        //}
+        //else
+        //{
+        //    AddSolutionInPipette(pipetteRef);
+        //}
+        //test = !test;
     }
 
     public override void Interact()
     {
         base.Interact();
         OpenTubeLid();
-        GameManager.Instance.ChangeUIActiveState(gameObject,"TestTubeUI", true);
+        UIManager.Instance.ChangeUIActiveState(gameObject,"TestTubeUI", true);
     }
     public override void StopInteraction()
     {
         base.StopInteraction();
-        GameManager.Instance.ChangeUIActiveState(gameObject,"TestTubeUI", false);
+        UIManager.Instance.ChangeUIActiveState(gameObject,"TestTubeUI", false);
     }
     private void OpenTubeLid()
     {
@@ -82,14 +84,7 @@ public class TestTube : DeskInteractableObject, PipetteInteractable
         else return 90;
     }
 
-    private void AddSolutionInPipette(Pipette pipetteRef)
-    {
-        //GameManager.Instance.pipetteUI.AddSolutionToPipetteContainer(solutionQuantity_ul, solutionType);
-    }
-    private void RemoveSolutionFromPipette(Pipette pipetteRef)
-    {
-        //GameManager.Instance.pipetteUI.RemoveSolutionToPipetteContainer(solutionQuantity_ul);
-    }
+    
 
     public override void StopInteractingAction()
     {

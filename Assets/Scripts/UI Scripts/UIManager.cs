@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
     public List<UI> UI;
 
@@ -10,6 +10,17 @@ public class UIManager : MonoBehaviour
     {
         UI.Add(UItoAdd);
     }
+    public void ChangeUIActiveState(GameObject whoIsActivatingMe, string UIToChange, bool isActive)
+    {
+        UI ui = GetUIFromName(UIToChange);
+        if (ui)
+        {
+            ui.gameObject.SetActive(isActive);
+            ui.activatorReference = whoIsActivatingMe;
+            ui.OnChangeActivationState();
+        }
+    }
+
 
     public UI GetUIFromName(string NameToCompare)
     {
