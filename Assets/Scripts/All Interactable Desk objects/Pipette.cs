@@ -66,6 +66,30 @@ public class Pipette : DeskInteractableObject
         
     }
 
+
+    public void PutTipOnPipette(PipetteTip tipToPutOn)
+    {
+        if (currentlyHeldPipetteTip != null) return;
+        if (tipToPutOn.hasBeenUsed == true) return;
+        currentlyHeldPipetteTip = tipToPutOn.gameObject;
+        tipToPutOn.transform.position = PipetteTipPositionObject.transform.position;
+        tipToPutOn.transform.parent = transform;
+    }
+    public void RemoveTipFromPipette()
+    {
+        if (currentlyHeldPipetteTip == null) return;
+        Rigidbody rb = currentlyHeldPipetteTip.GetComponent<Rigidbody>();
+        Destroy(currentlyHeldPipetteTip.GetComponent<MeshCollider>());
+        currentlyHeldPipetteTip.AddComponent<BoxCollider>();
+        rb.isKinematic = false;
+        rb.AddTorque(Vector3.right * -5, ForceMode.Impulse);
+        currentlyHeldPipetteTip.GetComponent<PipetteTip>().hasBeenUsed = true;
+        currentlyHeldPipetteTip.transform.parent = null;
+        currentlyHeldPipetteTip.transform.position = new Vector3(currentlyHeldPipetteTip.transform.position.x, currentlyHeldPipetteTip.transform.position.y - 0f, currentlyHeldPipetteTip.transform.position.z);
+        currentlyHeldPipetteTip = null;
+    }
+
+
     public void ObtainSolution(TubeSolutionType solutionType, float quantityPerTick)
     {
 
@@ -188,6 +212,7 @@ public class Pipette : DeskInteractableObject
 
             solutionLiquidContained.Add(quantity);
         }
+        currentPipetteLiquid = GetCurrentPipetteLiquid();
         UIManager.Instance.GetUIFromName("PipetteUI").UpdateUI(gameObject);
     }
 
